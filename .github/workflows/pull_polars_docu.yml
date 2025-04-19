@@ -4,7 +4,7 @@ name: Get updated documentation of polars
 
 env:
   SOURCE_REPO: pola-rs/polars
-  DIRECTORY: docs/source/user-guide/
+  DIRECTORY: docs/source/user-guide
   USERNAME: ${{ github.actor }}
   ADDRESS_SUFFIX: users.noreply.github.com
   SERVER: ${{ github.server_url }}
