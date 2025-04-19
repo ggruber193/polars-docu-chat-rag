@@ -5,3 +5,5 @@ transformers~=4.51.3
 torch~=2.6.0
 tqdm~=4.67.1
 qdrant_client
+langgraph~=0.3.31
+gradio~=5.25.2
