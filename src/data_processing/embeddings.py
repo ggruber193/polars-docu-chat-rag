@@ -31,20 +31,7 @@ class TextEmbedder:
 
             # embeddings = F.norm(embeddings, p=2, dim=1)
             # scores = (embeddings[:1] @ embeddings[1:].T) * 100
-            
+
             embeddings = embeddings.tolist()
             outputs += embeddings
         return outputs
-
-if __name__ == '__main__':
-    from pathlib import Path
-    from src.data_processing.process_markdown import process_markdown_files
-
-    embedder = TextEmbedder()
-
-    docs_files = Path("D:\PycharmProjects\polargs-docu-chat-rag\data\polars-docu").rglob("*.md")
-    for doc in process_markdown_files(docs_files):
-        text, metadata = doc
-        print(text)
-        print(embedder.embed_text(text))
-        break

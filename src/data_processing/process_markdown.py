@@ -51,10 +51,3 @@ def process_markdown_files(paths: list[str | Path], batch_size=1, chunk_size=512
         md = [md for md, _ in mds_w_paths]
         docs = split_markdown(md, metadata, chunk_size=chunk_size, overlap=overlap)
         yield [i.page_content for i in docs], [i.metadata for i in docs]
-
-
-if __name__ == '__main__':
-    docs_files = Path("D:\PycharmProjects\polargs-docu-chat-rag\data\polars-docu").rglob("*.md")
-    for doc in process_markdown_files(docs_files):
-        print(doc)
-        break
