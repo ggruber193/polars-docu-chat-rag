@@ -35,7 +35,7 @@ jobs:
         with:
           repository: ${{ env.SOURCE_REPO }}
           path: ${{ env.PATH_SOURCE_CHECKOUT }}
-          filter: ${{ env.DIRECTORY }}/*
+          filter: ${{ env.DIRECTORY }}
       
       - name: Move files
         run: |
