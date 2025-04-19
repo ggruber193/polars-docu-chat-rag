@@ -1,0 +1,57 @@
+# This is a basic workflow to help you get started with Actions
+
+name: Get updated documentation of polars
+
+env:
+  SOURCE_REPO: pola-rs/polars
+  DIRECTORY: docs/source/user-guide
+  USERNAME: ${{ github.actor }}
+  ADDRESS_SUFFIX: users.noreply.github.com
+  SERVER: ${{ github.server_url }}
+  PATH_SOURCE_CHECKOUT: data/polars-docu
+
+# Controls when the workflow will run
+on:
+  #TODO: add trigger that runs action once per day/week/...
+  
+  
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  pull-files:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Checkout source repo
+        uses: actions/checkout@v4
+        with:
+          repository: ${{ env.SOURCE_REPO }}
+          path: ${{ env.PATH_SOURCE_CHECKOUT }}
+          sparse-checkout: ${{ env.DIRECTORY }}
+
+      - name: Check for changes
+        run: |
+          if git diff --quiet; then
+            echo "No changes detected. Exiting."
+            echo "exiting1=true" >> $GITHUB_ENV
+          fi
+
+      - name: Commit
+        if: env.exiting1 != 'true' && env.exiting2 != 'true'
+        run: |
+          git config user.name "$USERNAME"
+          git config user.email "$USERNAME@$ADDRESS_SUFFIX"
+          git commit -m "Pulled files from $SERVER/$SOURCE_REPO."
+
+      - name: Push
+        if: env.exiting1 != 'true'
+        run: |
+          git push
