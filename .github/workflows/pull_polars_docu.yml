@@ -37,20 +37,27 @@ jobs:
           path: ${{ env.PATH_SOURCE_CHECKOUT }}
           sparse-checkout: ${{ env.DIRECTORY }}
           sparse-checkout-cone-mode: false
-
+      
+      - name: Move files
+        run: |
+          cd $PATH_SOURCE_CHECKOUT
+          mv $DIRECTORY/* .
+          rm -r $DIRECTORY
+          git add .
+      
       - name: Check for changes
         run: |
           cd $PATH_SOURCE_CHECKOUT
           ls -1
-          if git diff --quiet; then
+          changed_files=${git diff --name-only HEAD}
+          if [ -z $changed_files ]; then
             echo "No changes detected. Exiting."
-            # echo "exiting1=true" >> $GITHUB_ENV
+            echo "exiting1=true" >> $GITHUB_ENV
           fi
 
       - name: Commit
-        if: env.exiting1 != 'true' && env.exiting2 != 'true'
+        if: env.exiting1 != 'true'
         run: |
-          echo ls -1
           git config user.name "$USERNAME"
           git config user.email "$USERNAME@$ADDRESS_SUFFIX"
           git commit -m "Pulled files from $SERVER/$SOURCE_REPO."
