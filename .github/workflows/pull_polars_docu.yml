@@ -78,5 +78,5 @@ jobs:
           GH_TOKEN: ${{ secrets.PULL_DOCU_TOKEN }}
         if: env.exiting1 != 'true'
         run: |
-          data_changed=$(echo $env.DATA_CHANGED $vars.DATA_CHANGED | xargs -n1 | sort | uniq | xargs)
-          gh variable set DATA_CHANGED --body $data_changed
+          data_changed=$(echo $DATA_CHANGED $DATA_CHANGED_REPO | xargs -n1 | sort | uniq | xargs)
+          gh variable set DATA_CHANGED_REPO --body $data_changed
