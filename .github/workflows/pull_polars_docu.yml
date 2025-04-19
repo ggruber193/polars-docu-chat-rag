@@ -38,17 +38,10 @@ jobs:
           sparse-checkout: ${{ env.DIRECTORY }}
           sparse-checkout-cone-mode: false
       
-      - name: Move files
-        run: |
-          cd $PATH_SOURCE_CHECKOUT
-          mv $DIRECTORY/* .
-          rm -r $DIRECTORY
-          git add .
-      
       - name: Check for changes
         run: |
           cd $PATH_SOURCE_CHECKOUT
-          ls -1
+          git add .
           changed_files=${git diff --name-only HEAD}
           if [ -z $changed_files ]; then
             echo "No changes detected. Exiting."
