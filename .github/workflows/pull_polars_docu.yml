@@ -76,5 +76,5 @@ jobs:
       - name: Update changed files variable
         if: env.exiting1 != 'true'
         run: |
-          data_changed="$(echo $env.DATA_CHANGED)"$'\n'"$(echo $vars.DATA_CHANGED)"
+          data_changed="$(echo $env.DATA_CHANGED) $(echo $vars.DATA_CHANGED)" | xargs -n1 | sort | xargs 
           gh variable set DATA_CHANGED --body $data_changed
