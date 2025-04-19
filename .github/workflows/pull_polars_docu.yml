@@ -39,6 +39,7 @@ jobs:
 
       - name: Check for changes
         run: |
+          cd $PATH_SOURCE_CHECKOUT
           ls -1
           if git diff --quiet; then
             echo "No changes detected. Exiting."
