@@ -42,6 +42,7 @@ jobs:
         run: |
           cd $PATH_SOURCE_CHECKOUT
           git add .
+          ls -1
           changed_files=$(git diff --name-only HEAD)
           echo $changed_files
           if [ -z $changed_files ]; then
