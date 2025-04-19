@@ -45,7 +45,6 @@ jobs:
           curr_dir=$(pwd)
           cd $PATH_SOURCE_CHECKOUT
           cp -r -u tmp/$DIRECTORY/* .
-          git rm tmp
           rm -r tmp
           cd $curr_dir
       
