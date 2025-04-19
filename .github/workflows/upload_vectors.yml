@@ -34,6 +34,9 @@ jobs:
       # Runs a set of commands using the runners shell
       - name: Embedd changed files
         if: env.exiting != 'true'
+        env:
+          QDRANT_URL: ${{ secrets.QDRANT_URL }}
+          QDRANT_API_KEY: ${{ secrets.QDRANT_API_KEY }}
         run: |
           echo $PYTHONPATH
           export PYTHONPATH=${PYTHONPATH}:$PWD
