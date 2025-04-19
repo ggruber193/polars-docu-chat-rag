@@ -35,16 +35,8 @@ jobs:
         with:
           repository: ${{ env.SOURCE_REPO }}
           path: ${{ env.PATH_SOURCE_CHECKOUT }}
-          sparse-checkout: ${{ env.DIRECTORY }}
+          sparse-checkout: ${{ env.DIRECTORY }}/*
           sparse-checkout-cone-mode: false
-
-      - name: Move file
-        run: |
-          curr_dir=$(pwd)
-          cd $PATH_SOURCE_CHECKOUT
-          mv $DIRECTORY/* .
-          rm -r $DIRECTORY
-          cd $curr_dir
       
       - name: Check for changes
         run: |
