@@ -7,3 +7,4 @@ tqdm~=4.67.1
 qdrant_client
 langgraph~=0.3.31
 gradio~=5.25.2
+langchain_google_genai~=2.1.3
