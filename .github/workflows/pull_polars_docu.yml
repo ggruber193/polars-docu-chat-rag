@@ -4,7 +4,7 @@ name: Get updated documentation of polars
 
 env:
   SOURCE_REPO: pola-rs/polars
-  DIRECTORY: "docs/source/user-guide/*"
+  DIRECTORY: docs/source/user-guide/
   USERNAME: ${{ github.actor }}
   ADDRESS_SUFFIX: users.noreply.github.com
   SERVER: ${{ github.server_url }}
@@ -30,13 +30,25 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Update git config
+        run: |
+          git config set advice.updateSparsePath false
+      
       - name: Checkout source repo
         uses: actions/checkout@v4
         with:
           repository: ${{ env.SOURCE_REPO }}
           path: ${{ env.PATH_SOURCE_CHECKOUT }}
           sparse-checkout: ${{ env.DIRECTORY }}
-          sparse-checkout-cone-mode: false    
+          sparse-checkout-cone-mode: false
+      
+      - name: Move files
+        run: |
+          curr_dir=$(pwd)
+          cd $PATH_SOURCE_CHECKOUT
+          mv $DIRECTORY/* .
+          rm -r $DIRECTORY
+          cd $curr_dir
       
       - name: Check for changes
         run: |
