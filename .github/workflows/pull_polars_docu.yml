@@ -42,7 +42,7 @@ jobs:
         run: |
           curr_dir=$(pwd)
           cd $PATH_SOURCE_CHECKOUT
-          cp $DIRECTORY/* .
+          cp -r $DIRECTORY/* .
           rm -r $DIRECTORY
           cd $curr_dir
       
