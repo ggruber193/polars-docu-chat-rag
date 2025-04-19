@@ -47,6 +47,7 @@ jobs:
       - name: Commit
         if: env.exiting1 != 'true' && env.exiting2 != 'true'
         run: |
+          echo ls -1
           git config user.name "$USERNAME"
           git config user.email "$USERNAME@$ADDRESS_SUFFIX"
           git commit -m "Pulled files from $SERVER/$SOURCE_REPO."
