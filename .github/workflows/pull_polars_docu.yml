@@ -44,8 +44,10 @@ jobs:
         run: |
           curr_dir=$(pwd)
           cd $PATH_SOURCE_CHECKOUT
+          ls -1
           mv tmp/$DIRECTORY/* .
           rm -r tmp/$DIRECTORY
+          ls -1
           cd $curr_dir
       
       - name: Check for changes
