@@ -40,9 +40,11 @@ jobs:
 
       - name: Move file
         run: |
+          curr_dir=$(pwd)
           cd $PATH_SOURCE_CHECKOUT
           mv $DIRECTORY/* .
           rm -r $DIRECTORY
+          cd $curr_dir
       
       - name: Check for changes
         run: |
