@@ -52,6 +52,7 @@ jobs:
           git add .
           ls -1
           changed_files=$(git diff --name-only HEAD)
+          changed_files="1"
           echo $changed_files
           if [ -z $changed_files ]; then
             echo "No changes detected. Exiting."
