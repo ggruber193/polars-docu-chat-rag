@@ -4,8 +4,8 @@ from qdrant_client import QdrantClient
 from tqdm import tqdm
 import argparse
 
-from src.data_processing.upload_to_qdrant import QdrantStore
-from src.data_processing.embeddings import TextEmbedder
+from src.database.qdrant_store import QdrantStore
+from src.embeddings import TextEmbedder
 from src.data_processing.process_markdown import process_markdown_files
 from src.config import get_qdrant_config, EMBEDDING_MODEL, QDRANT_COLLECTION_NAME
 
@@ -36,7 +36,7 @@ if __name__ == "__main__":
 
     qdrant_url = os.getenv("QDRANT_URL", "")
     qdrant_api_key = os.getenv("QDRANT_API_KEY", "")
-    if not qdrant_url or not qdrant_api_key:
+    if not qdrant_url:
         raise(ValueError("Api Key or Url not found in environment"))
 
     args = parser.parse_args()
@@ -45,9 +45,6 @@ if __name__ == "__main__":
     document_batch_size = args.document_batch_size
     embedding_batch_size = args.embedding_batch_size
     files_present = [i for i in data_dir.rglob("*.md") if i in changed_files]
-
-    print(files_present)
-    print(changed_files)
 
     reset_collection = args.reset_collection
 
