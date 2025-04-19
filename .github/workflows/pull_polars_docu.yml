@@ -74,6 +74,8 @@ jobs:
           git push
 
       - name: Update changed files variable
+        env:
+          GH_TOKEN: ${{ github.token }}
         if: env.exiting1 != 'true'
         run: |
           data_changed=$(echo $env.DATA_CHANGED $vars.DATA_CHANGED | xargs -n1 | sort | uniq | xargs)
