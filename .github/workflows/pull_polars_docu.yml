@@ -37,7 +37,7 @@ jobs:
         with:
           repository: ${{ env.SOURCE_REPO }}
           path: ${{ env.PATH_SOURCE_CHECKOUT }}
-          sparse-checkout: ${{ env.DIRECTORY }}
+          sparse-checkout: ${{ env.DIRECTORY }}/*
           sparse-checkout-cone-mode: false
       
       #- name: Move files
