@@ -4,7 +4,7 @@ name: Get updated documentation of polars
 
 env:
   SOURCE_REPO: pola-rs/polars
-  DIRECTORY: docs/source/user-guide/*
+  DIRECTORY: "docs/source/user-guide/*"
   USERNAME: ${{ github.actor }}
   ADDRESS_SUFFIX: users.noreply.github.com
   SERVER: ${{ github.server_url }}
@@ -36,7 +36,7 @@ jobs:
           repository: ${{ env.SOURCE_REPO }}
           path: ${{ env.PATH_SOURCE_CHECKOUT }}
           sparse-checkout: ${{ env.DIRECTORY }}
-          sparse-checkout-cone-mode: false
+          sparse-checkout-cone-mode: false    
       
       - name: Check for changes
         run: |
