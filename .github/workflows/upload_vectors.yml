@@ -1,6 +1,6 @@
 # This is a basic workflow to help you get started with Actions
 
-name: CI
+name: Update vector store
 
 # Controls when the workflow will run
 on:
@@ -26,6 +26,10 @@ jobs:
           if [ -z $($DATA_CHANGED_REPO | tr -d ' ') ]; then
             echo "exiting=true" >> GITHUB_ENV
           fi
+
+      - name: install requirements
+        run: |
+          pip install -r requirements.txt
 
       # Runs a set of commands using the runners shell
       - name: Embedd changed files
