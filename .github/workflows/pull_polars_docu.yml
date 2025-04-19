@@ -37,18 +37,12 @@ jobs:
           path: ${{ env.PATH_SOURCE_CHECKOUT }}
           sparse-checkout: ${{ env.DIRECTORY }}
           sparse-checkout-cone-mode: false
-
-      - name: Update git config
-        run: |
-          git config set advice.updateSparsePath false
       
       - name: Move files
         run: |
-          git config --get advice.updateSparsePath
           curr_dir=$(pwd)
           cd $PATH_SOURCE_CHECKOUT
-          ls -1
-          mv $DIRECTORY/* .
+          cp $DIRECTORY/* .
           rm -r $DIRECTORY
           cd $curr_dir
       
