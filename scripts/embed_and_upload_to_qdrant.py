@@ -45,6 +45,10 @@ if __name__ == "__main__":
     document_batch_size = args.document_batch_size
     embedding_batch_size = args.embedding_batch_size
     files_present = [i for i in data_dir.rglob("*.md") if i in changed_files]
+
+    print(files_present)
+    print(changed_files)
+
     reset_collection = args.reset_collection
 
     client = QdrantClient(qdrant_url, api_key=qdrant_api_key)
