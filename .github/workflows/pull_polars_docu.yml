@@ -54,7 +54,7 @@ jobs:
         run: |
           cd $PATH_SOURCE_CHECKOUT
           git add .
-          changed_files=$(git diff --name-only HEAD) 
+          changed_files=$(git diff --name-only HEAD) | tr $'\n' ' '
           echo "DATA_CHANGED=${changed_files}" >> $GITHUB_ENV
           if [ -z $changed_files ]; then
             echo "No changes detected. Exiting."
