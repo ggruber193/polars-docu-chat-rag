@@ -37,6 +37,12 @@ jobs:
           path: ${{ env.PATH_SOURCE_CHECKOUT }}
           sparse-checkout: ${{ env.DIRECTORY }}
           sparse-checkout-cone-mode: false
+
+      - name: Move file
+        run: |
+          cd $PATH_SOURCE_CHECKOUT
+          mv $DIRECTORY/* .
+          rm -r $DIRECTORY
       
       - name: Check for changes
         run: |
