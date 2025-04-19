@@ -35,6 +35,8 @@ jobs:
       - name: Embedd changed files
         if: env.exiting != 'true'
         run: |
+          echo $PYTHONPATH
+          export PYTHONPATH=${PYTHONPATH}:$PWD
           python scripts/embed_and_upload_to_qdrant.py --directory data/polars-docu --changed-files $(echo DATA_CHANGED_REPO | tr ',' ' ')
 
       - name: Clean up changed files variable
