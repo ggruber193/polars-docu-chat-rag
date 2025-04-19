@@ -1,0 +1,37 @@
+name: Sync to Hugging Face hub
+on:
+  push:
+    branches: [deployment]
+
+  # to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  sync-to-hub:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: deployment
+          sparse-checkout: |
+            src
+            app.py
+            requirements.txt
+          sparse-checkout-cone-mode: false
+          fetch-depth: 0
+      - name: Create commit
+        env:
+            HF_TOKEN: ${{ secrets.HF_DEPLOY_TOKEN }}
+        run : |
+          mkdir -p push-hf-dir
+          mv src app.py requirements.txt push-hf-dir
+          cd push-hf-dir
+          git init --initial-branch=main
+          git config pull.rebase false
+          git config user.name "GitHub Actions Bot"
+          git config user.email "deployment"
+          git add .
+          git commit -m "Changes from ${{ github.repository }}"
+          git pull -Xours https://yeastcoast:$HF_TOKEN@huggingface.co/spaces/yeastcoast/polars-documentation-rag main --allow-unrelated-histories
+          git push --force https://yeastcoast:$HF_TOKEN@huggingface.co/spaces/yeastcoast/polars-documentation-rag main
+          
