@@ -49,6 +49,7 @@ jobs:
       - name: Check for changes
         run: |
           cd $PATH_SOURCE_CHECKOUT
+          cd $DIRECTORY
           git add .
           ls -1
           changed_files=$(git diff --name-only HEAD)
