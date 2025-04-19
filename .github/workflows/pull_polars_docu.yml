@@ -26,6 +26,10 @@ jobs:
     runs-on: ubuntu-latest
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
+      - name: Update git config
+        run: |
+          git config set advice.updateSparsePath false
+      
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - name: Checkout
         uses: actions/checkout@v4
@@ -35,10 +39,12 @@ jobs:
         with:
           repository: ${{ env.SOURCE_REPO }}
           path: ${{ env.PATH_SOURCE_CHECKOUT }}
-          filter: ${{ env.DIRECTORY }}
+          sparse-checkout: ${{ env.DIRECTORY }}
+          sparse-checkout-cone-mode: false
       
       - name: Move files
         run: |
+          git config --get advice.updateSparsePath
           curr_dir=$(pwd)
           cd $PATH_SOURCE_CHECKOUT
           ls -1
