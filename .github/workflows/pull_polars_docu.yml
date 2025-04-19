@@ -44,24 +44,16 @@ jobs:
         run: |
           curr_dir=$(pwd)
           cd $PATH_SOURCE_CHECKOUT
-          pwd
-          ls -1
-          mv tmp/$DIRECTORY/* .
-          rm -r tmp/$DIRECTORY
-          ls -1
+          cp -r -u tmp/$DIRECTORY/* .
+          git rm tmp
+          rm -r tmp
           cd $curr_dir
-          pwd
       
       - name: Check for changes
         run: |
-          pwd
-          ls $PATH_SOURCE_CHECKOUT
           cd $PATH_SOURCE_CHECKOUT
           git add .
-          ls -1
           changed_files=$(git diff --name-only HEAD)
-          changed_files="1"
-          echo $changed_files
           if [ -z $changed_files ]; then
             echo "No changes detected. Exiting."
             echo "exiting1=true" >> $GITHUB_ENV
