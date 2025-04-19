@@ -38,13 +38,13 @@ jobs:
           sparse-checkout: ${{ env.DIRECTORY }}
           sparse-checkout-cone-mode: false
       
-      - name: Move files
-        run: |
-          curr_dir=$(pwd)
-          cd $PATH_SOURCE_CHECKOUT
-          cp -r $DIRECTORY/* .
-          rm -r $DIRECTORY
-          cd $curr_dir
+      #- name: Move files
+      #  run: |
+      #    curr_dir=$(pwd)
+      #    cd $PATH_SOURCE_CHECKOUT
+      #    cp -r $DIRECTORY/* .
+      #    rm -r $DIRECTORY
+      #    cd $curr_dir
       
       - name: Check for changes
         run: |
