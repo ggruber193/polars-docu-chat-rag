@@ -23,7 +23,7 @@ jobs:
 
       - name: Check if files changed
         run: |
-          if [ -z $($data_changed | tr -d ' ') ]; then
+          if [ -z $($DATA_CHANGED_REPO | tr -d ' ') ]; then
             echo "exiting=true" >> GITHUB_ENV
           fi
 
@@ -31,7 +31,7 @@ jobs:
       - name: Embedd changed files
         if: env.exiting != 'true'
         run: |
-          # TODO run embedding script
+          python scripts/embed_and_upload_to_qdrant.py --directory data/polars-docu --changed-files $(echo DATA_CHANGED_REPO | tr ',' ' ')
 
       - name: Clean up changed files variable
         if: env.exiting != 'true'
