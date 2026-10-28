@@ -84,19 +84,36 @@ first needed. The name after the catalog is passed to the catalog as written, so
 are case-sensitive. A column can be qualified by any trailing part of the table's full name:
 `lineitem.k`, `tpch.lineitem.k` or `lake.tpch.lineitem.k`.
 
-With a default catalog, a table name that is neither a CTE nor a registered table goes to the
-catalog, so a misspelled name is looked up there too. A catalog table that does not exist raises
-`NoSuchTableError` when it loads, which can be as late as `collect()`. A name that no catalog can
-resolve raises "relation ... was not found" instead: for example `lineitem` when the default catalog
-has no `default_namespace`, or `tpch.lineitem` when an attached catalog named `tpch` without a
-`default_namespace` takes precedence over that namespace. Writing the full name, such as
-`lake.tpch.lineitem`, makes the catalog explicit.
+With a default catalog, any name that is neither a CTE nor a registered table is looked up in the
+catalog, so a misspelled name is too: a missing table raises `NoSuchTableError` when it loads, which
+can be as late as `collect()`. Writing the full name, such as `lake.tpch.lineitem`, makes the
+catalog explicit.
 
 Catalogs attached inside a `with SQLContext()` block are detached on exit, like the tables
-registered there. If that detaches the default catalog, the default catalog on entry is restored.
-`CREATE TABLE`, `DROP TABLE`, `TRUNCATE` and `DELETE` on catalog tables are not supported yet.
-`DROP TABLE IF EXISTS` and `TRUNCATE TABLE IF EXISTS` of a name that does not start with an attached
-catalog only act on a registered table.
+registered there.
+
+#### Create and drop catalog tables
+
+`CREATE TABLE` and `DROP TABLE` resolve the table name as a query does, and act on the catalog:
+
+```python
+ctx.execute("CREATE TABLE orders (id BIGINT NOT NULL, amount DOUBLE)")  # empty lake.tpch.orders
+ctx.execute("CREATE TABLE big_orders AS SELECT * FROM orders WHERE amount > 1000")
+ctx.execute("CREATE TEMP TABLE staging AS SELECT * FROM orders")  # registered in the context
+ctx.execute("DROP TABLE big_orders")  # dropped from the catalog
+```
+
+- The statements run at `execute()`. `CREATE TABLE ... AS` commits the rows together with the
+  create, so a failed query creates no table. A catalog that cannot stage a create gets an empty
+  table first, dropped again if filling it fails, unless another writer changed it.
+- `NOT NULL` makes a column a required field. `LOCATION '...'` and
+  `WITH ('format-version' = 2, ...)` set the table's location and properties.
+- `CREATE TEMP TABLE` always creates a registered table instead.
+- `DROP TABLE` drops a registered table of that name first, else the catalog table, permanently.
+  `DROP TABLE ... PURGE` also deletes the table's data files.
+- `TRUNCATE` and `DELETE` are not supported on catalog tables.
+
+See `SQLContext.register_catalog` for the details.
 
 !!! warning "Serialized plans"
 
